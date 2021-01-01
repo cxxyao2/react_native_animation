@@ -1,25 +1,32 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Animated } from "react-native";
+import FactCard from "./components/fact-card/index";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.position = new Animated.ValueXY(0, 0);
-    Animated.timing(this.position, { toValue: { x: 200, y: 300 } }).start();
   }
+
   render() {
     return (
-      <Animated.View style={this.position.getLayout()}>
-        <View style={styles.square}></View>
-      </Animated.View>
+      <>
+        <View style={styles.container}>
+          <Text style={styles.title}>Fact Swipe</Text>
+          <FactCard />
+        </View>
+      </>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  square: {
-    width: 100,
-    height: 100,
-    backgroundColor: "red",
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    marginTop: 50,
+  },
+  title: {
+    fontSize: 30,
   },
 });
