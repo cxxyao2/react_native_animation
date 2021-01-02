@@ -84,18 +84,21 @@ class App extends Component {
   forceLeftExit() {
     Animated.timing(this.position, {
       toValue: { x: wp("-100%"), y: 0 },
+      useNativeDriver: false,
     }).start(this.onCartExitDone);
   }
 
   forceRightExit() {
     Animated.timing(this.position, {
       toValue: { x: wp("100%"), y: 0 },
+      useNativeDriver: false,
     }).start(this.onCartExitDone);
   }
 
   resetPositionSoft() {
     Animated.spring(this.position, {
       toValue: { x: 0, y: 0 },
+      useNativeDriver: false,
     }).start();
   }
   getCardStyle() {

@@ -29,7 +29,9 @@ export default class FactCard extends Component {
         />
 
         <ScrollView
-          ref={(scrollViewRef) => (this.scrollView = scrollViewRef)}
+          ref={(scrollViewRef) => {
+            this.scrollView = scrollViewRef;
+          }}
           onScrollEndDrag={this.goToTopScrollView}
           height={hp("10%")}
         >
@@ -38,7 +40,6 @@ export default class FactCard extends Component {
 
         <Button
           title="see the source"
-          disabled={this.props.disabled}
           onPress={() => Linking.openURL(this.props.fact.source_url)}
         ></Button>
       </View>
