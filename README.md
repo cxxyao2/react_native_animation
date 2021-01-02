@@ -1,5 +1,11 @@
 # unsafe
-* componentWillMount
-* componentWillUpdate
-* componentWillReceiveProps
+
+- componentWillMount
+- componentWillUpdate
+- componentWillReceiveProps
+
 # initiate at constructor()
+
+# command
+
+- expo start

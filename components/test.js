@@ -5,7 +5,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-export default class FactCard extends Component {
+export default class TestCard extends Component {
+  goToTopScrollView = () => {
+    this.scrollView.scrollTo({ x: 0, y: 0, animated: true });
+  };
   render() {
     return (
       <View
@@ -24,13 +27,18 @@ export default class FactCard extends Component {
             uri: "https://picsum.photos/300/200?image=92",
           }}
         />
-
-        <Text style={{ padding: 10 }}>aaaaaa,dddd,aaaa</Text>
+        <ScrollView
+          ref={(scrollViewRef) => (this.scrollView = scrollViewRef)}
+          onScrollEndDrag={this.goToTopScrollView}
+          height={hp("10%")}
+        >
+          <Text style={{ padding: 10 }}>hello world</Text>
+        </ScrollView>
 
         <Button
           title="see the source"
-          disabled={false}
-          onPress={() => console.log("todo press")}
+          disabled={true}
+          onPress={() => Linking.openURL("https://www.google.com")}
         ></Button>
       </View>
     );
