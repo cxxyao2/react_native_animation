@@ -6,6 +6,9 @@ import {
 } from "react-native-responsive-screen";
 
 export default class FactCard extends Component {
+  goToTopScrollView = () => {
+    this.scrollView.scrollTo({ x: 0, y: 0, animated: true });
+  };
   render() {
     return (
       <View
@@ -21,16 +24,22 @@ export default class FactCard extends Component {
         <Image
           style={{ width: wp("90%"), height: hp("30%") }}
           source={{
-            uri: "https://picsum.photos/300/200?image=92",
+            uri: this.props.fact.image,
           }}
         />
 
-        <Text style={{ padding: 10 }}>aaaaaa,dddd,aaaa</Text>
+        <ScrollView
+          ref={(scrollViewRef) => (this.scrollView = scrollViewRef)}
+          onScrollEndDrag={this.goToTopScrollView}
+          height={hp("10%")}
+        >
+          <Text style={{ padding: 10 }}>{this.props.fact.text}</Text>
+        </ScrollView>
 
         <Button
           title="see the source"
-          disabled={false}
-          onPress={() => console.log("todo press")}
+          disabled={this.props.disabled}
+          onPress={() => Linking.openURL(this.props.fact.source_url)}
         ></Button>
       </View>
     );
