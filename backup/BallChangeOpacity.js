@@ -7,21 +7,11 @@ import {
   View,
   PanResponder,
 } from "react-native";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-
-const HALF_SCREEN_WIDTH = "50%";
-const MAX_LEFT_ROTATION_DISTANCE = wp("-150%");
-const MAX_RIGHT_ROTATION_DISTANCE = wp("150%");
-const LEFT_THRESHOLD_DISTANCE = wp("-50%");
-const RIGHT_THRESHOLD_DISTANCE = wp("50%");
 
 // 跟随手已移动,
 // 放手回到原来位置
-// 过了中线,右边变红,左边变蓝
-export default class BounceBall extends Component {
+//
+export default class BallChangeOpacity extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,7 +60,7 @@ export default class BounceBall extends Component {
             useNativeDriver: false,
           }),
           Animated.timing(this.animatedColor, {
-            toValue: 0,
+            toValue: 0.3,
             duration: 2000,
             useNativeDriver: false,
           }),
@@ -84,23 +74,12 @@ export default class BounceBall extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.backgroundView}>
-          <View style={styles.leftView}></View>
-          <View style={styles.rightView}></View>
-        </View>
         <Animated.View
           style={[
             styles.touchView,
             {
               transform: this.position.getTranslateTransform(),
-              backgroundColor: this.animatedColor.interpolate({
-                inputRange: [0, 0.5, 1],
-                outputRange: [
-                  "rgba(255, 0, 0, 1)",
-                  "rgba(0, 255, 0, 1)",
-                  "rgba(0, 0, 255, 1)",
-                ],
-              }),
+              opacity: this.animatedColor,
             },
           ]}
           {...this.state.panResponder?.panHandlers}
@@ -116,30 +95,11 @@ var styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  backgroundView: {
-    flex: 1,
-    width: "100%",
-    height: hp("100%"),
-    flexDirection: "row",
-    position: "absolute",
-  },
   touchView: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: "red",
+    backgroundColor: "blue",
     marginTop: 30,
-  },
-  leftView: {
-    width: HALF_SCREEN_WIDTH,
-    height: hp("100%"),
-    flex: 1,
-    backgroundColor: "purple",
-  },
-  rightView: {
-    width: HALF_SCREEN_WIDTH,
-    height: hp("100%"),
-    flex: 1,
-    backgroundColor: "black",
   },
 });
