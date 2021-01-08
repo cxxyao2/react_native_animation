@@ -17,6 +17,7 @@ const MAX_LEFT_ROTATION_DISTANCE = wp("-150%");
 const MAX_RIGHT_ROTATION_DISTANCE = wp("150%");
 const LEFT_THRESHOLD_DISTANCE = wp("-50%");
 const RIGHT_THRESHOLD_DISTANCE = wp("50%");
+const CIRCLE_SIZE = 100;
 
 // 跟随手已移动,
 // 放手回到原来位置
@@ -37,13 +38,23 @@ export default class BounceBall extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderMove: (evt, gestureState) => {
-        console.log(gestureState);
         // gestureState.move{X,Y} 是手指现在的位置
         // dx,dy累积移动距离
         //  x0,yo 移动开始时的位置
         // 以下公式大概成立
         // moveX = x0 + dx
         // moveY = yo + dy
+        let aniColor;
+        if (gestureState.dx - CIRCLE_SIZE / 2 < LEFT_THRESHOLD_DISTANCE) {
+          aniColor = 0;
+        } else if (
+          gestureState.dx + CIRCLE_SIZE / 2 >
+          RIGHT_THRESHOLD_DISTANCE
+        ) {
+          aniColor = 1;
+        } else {
+          aniColor = 0.3;
+        }
 
         //Animated.parallel同时执行多个动画
         Animated.parallel([
@@ -53,8 +64,8 @@ export default class BounceBall extends Component {
             useNativeDriver: false,
           }),
           Animated.timing(this.animatedColor, {
-            toValue: 0.5,
-            duration: 400,
+            toValue: aniColor,
+            duration: 0,
             useNativeDriver: false,
           }),
         ]).start();
@@ -69,13 +80,12 @@ export default class BounceBall extends Component {
             duration: 0,
             useNativeDriver: false,
           }),
-          Animated.timing(this.animatedColor, {
-            toValue: 0,
-            duration: 2000,
-            useNativeDriver: false,
-          }),
+          // Animated.timing(this.animatedColor, {
+          //   toValue: 0.5,
+          //   duration: 0,
+          //   useNativeDriver: false,
+          // }),
         ]).start();
-        // 一般来说这意味着一个手势操作已经成功完成。
       },
     });
     this.setState({ panResponder });
@@ -94,12 +104,8 @@ export default class BounceBall extends Component {
             {
               transform: this.position.getTranslateTransform(),
               backgroundColor: this.animatedColor.interpolate({
-                inputRange: [0, 0.5, 1],
-                outputRange: [
-                  "rgba(255, 0, 0, 1)",
-                  "rgba(0, 255, 0, 1)",
-                  "rgba(0, 0, 255, 1)",
-                ],
+                inputRange: [0, 0.3, 0.5, 1],
+                outputRange: ["red", "yellow", "blue", "black"],
               }),
             },
           ]}
@@ -124,9 +130,9 @@ var styles = StyleSheet.create({
     position: "absolute",
   },
   touchView: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: CIRCLE_SIZE,
+    height: CIRCLE_SIZE,
+    borderRadius: CIRCLE_SIZE / 2,
     backgroundColor: "red",
     marginTop: 30,
   },
@@ -134,12 +140,12 @@ var styles = StyleSheet.create({
     width: HALF_SCREEN_WIDTH,
     height: hp("100%"),
     flex: 1,
-    backgroundColor: "purple",
+    backgroundColor: "green",
   },
   rightView: {
     width: HALF_SCREEN_WIDTH,
     height: hp("100%"),
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
 });
