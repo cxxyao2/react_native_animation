@@ -40,6 +40,7 @@ export default class FactCard extends Component {
 
         <Button
           title="see the source"
+          disabled={this.props.disabled}
           onPress={() => Linking.openURL(this.props.fact.source_url)}
         ></Button>
       </View>

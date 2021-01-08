@@ -7,7 +7,7 @@ const DraggableView = () => {
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: Animated.event([
-      null,
+      null, //  raw event arg ignored
       {
         dx: pan.x, // x,y are Animated.Value
         dy: pan.y,
