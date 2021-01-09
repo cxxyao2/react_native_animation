@@ -44,6 +44,8 @@ export default class BounceBall extends Component {
         // 以下公式大概成立
         // moveX = x0 + dx
         // moveY = yo + dy
+        // Animated.timing,Animated.spring 等都是推动值的变化
+        // 具体object怎么动起来,设定在style中的transition,opacity,color之类
         let aniColor;
         if (gestureState.dx - CIRCLE_SIZE / 2 < LEFT_THRESHOLD_DISTANCE) {
           aniColor = 0;
@@ -60,12 +62,13 @@ export default class BounceBall extends Component {
         Animated.parallel([
           Animated.timing(this.position, {
             toValue: { x: gestureState.dx, y: gestureState.dy },
-            duration: 0,
+            duration: 100,
             useNativeDriver: false,
           }),
           Animated.timing(this.animatedColor, {
             toValue: aniColor,
-            duration: 0,
+            duration: 100,
+            easing: Easing.linear,
             useNativeDriver: false,
           }),
         ]).start();
